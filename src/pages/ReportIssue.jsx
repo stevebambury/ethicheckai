@@ -138,8 +138,8 @@ const ReportIssue = () => {
                 <form 
                   name="issue-report" 
                   method="POST" 
-                  data-netlify="true" 
-                  data-netlify-honeypot="bot-field"
+                  netlify
+                  netlify-honeypot="bot-field"
                   className="space-y-6"
                 >
                   {/* Hidden fields for Netlify */}
