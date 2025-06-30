@@ -10,6 +10,7 @@ import About from './pages/About'
 import WhyEthiCheck from './pages/WhyEthiCheck'
 import Glossary from './pages/Glossary'
 import ReportIssue from './pages/ReportIssue'
+import ReportIssueSuccess from './pages/ReportIssueSuccess'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService'
 import AssessmentForm from './components/AssessmentForm'
@@ -33,6 +34,7 @@ function App() {
             <Route path="/methodology" element={<Methodology />} />
             <Route path="/glossary" element={<Glossary />} />
             <Route path="/report-issue" element={<ReportIssue />} />
+            <Route path="/report-issue-success" element={<ReportIssueSuccess />} />
             <Route path="/about" element={<About />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />

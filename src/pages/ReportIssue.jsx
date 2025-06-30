@@ -11,85 +11,12 @@ const ReportIssue = () => {
     issueType: '',
     description: ''
   })
-  const [submitted, setSubmitted] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState('')
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setError('')
-    
-    try {
-      // Create form data for Netlify
-      const formDataToSubmit = new FormData()
-      formDataToSubmit.append('form-name', 'issue-report')
-      formDataToSubmit.append('name', formData.name)
-      formDataToSubmit.append('email', formData.email)
-      formDataToSubmit.append('issue-type', formData.issueType)
-      formDataToSubmit.append('description', formData.description)
-      formDataToSubmit.append('submitted-from', window.location.href)
-      formDataToSubmit.append('submission-date', new Date().toLocaleString())
-      formDataToSubmit.append('browser-info', navigator.userAgent)
-
-      // Submit to Netlify
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formDataToSubmit).toString()
-      })
-
-      if (response.ok) {
-        setSubmitted(true)
-      } else {
-        throw new Error('Form submission failed')
-      }
-      
-    } catch (error) {
-      console.error('Error submitting form:', error)
-      setError('There was an error submitting your report. Please try again or contact us directly.')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }))
-  }
-
-  if (submitted) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="max-w-md mx-auto text-center">
-          <CardHeader>
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="w-8 h-8 text-green-600" />
-            </div>
-            <CardTitle className="text-2xl">Report Submitted!</CardTitle>
-            <CardDescription>
-              Thank you for your feedback. We've received your issue report and will review it promptly. 
-              You should receive a confirmation email shortly.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button 
-              onClick={() => {
-                setSubmitted(false)
-                setFormData({name: '', email: '', issueType: '', description: ''})
-                setError('')
-              }}
-              variant="outline"
-              className="w-full"
-            >
-              Report Another Issue
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    )
   }
 
   return (
@@ -150,23 +77,21 @@ const ReportIssue = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {error && (
-                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
-                    <p className="text-red-600 text-sm">{error}</p>
-                  </div>
-                )}
-                
                 <form 
                   name="issue-report" 
                   method="POST" 
                   data-netlify="true" 
                   data-netlify-honeypot="bot-field"
-                  onSubmit={handleSubmit} 
+                  action="/report-issue-success"
                   className="space-y-6"
                 >
                   {/* Hidden fields for Netlify */}
                   <input type="hidden" name="form-name" value="issue-report" />
-                  <input type="hidden" name="bot-field" />
+                  <div style={{ display: 'none' }}>
+                    <label>
+                      Don't fill this out if you're human: <input name="bot-field" />
+                    </label>
+                  </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -232,9 +157,14 @@ const ReportIssue = () => {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full" disabled={isSubmitting}>
+                  {/* Hidden fields for additional context */}
+                  <input type="hidden" name="submitted-from" value={typeof window !== 'undefined' ? window.location.href : ''} />
+                  <input type="hidden" name="submission-date" value={new Date().toLocaleString()} />
+                  <input type="hidden" name="browser-info" value={typeof navigator !== 'undefined' ? navigator.userAgent : ''} />
+
+                  <Button type="submit" className="w-full">
                     <Send className="w-4 h-4 mr-2" />
-                    {isSubmitting ? 'Submitting...' : 'Submit Issue Report'}
+                    Submit Issue Report
                   </Button>
                 </form>
               </CardContent>
