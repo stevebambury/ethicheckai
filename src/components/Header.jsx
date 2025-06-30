@@ -20,14 +20,14 @@ const Header = () => {
           <div className="flex items-center space-x-1">
             {/* Navigation */}
             <nav className="hidden md:flex items-center space-x-1 mr-4">
-              <Link to="/examples" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
-                Examples
-              </Link>
               <Link to="/why-ethicheck" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
                 Why EthiCheck?
               </Link>
               <Link to="/methodology" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
                 Methodology
+              </Link>
+              <Link to="/examples" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                Examples
               </Link>
               <Link to="/glossary" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
                 Glossary
