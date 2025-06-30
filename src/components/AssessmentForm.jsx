@@ -302,12 +302,12 @@ const AssessmentForm = () => {
     }
 
     const normalizedScores = {
-      fairness: Math.min((scores.fairness / maxScores.fairness) * 10, 10),
-      privacy: Math.min((scores.privacy / maxScores.privacy) * 10, 10),
-      transparency: Math.min((scores.transparency / maxScores.transparency) * 10, 10),
-      oversight: Math.min((scores.oversight / maxScores.oversight) * 10, 10),
-      effectiveness: Math.min((scores.effectiveness / maxScores.effectiveness) * 10, 10),
-      risk: Math.min((scores.risk / maxScores.risk) * 10, 10)
+      fairness: Math.max(0, Math.min((scores.fairness / maxScores.fairness) * 10, 10)),
+      privacy: Math.max(0, Math.min((scores.privacy / maxScores.privacy) * 10, 10)),
+      transparency: Math.max(0, Math.min((scores.transparency / maxScores.transparency) * 10, 10)),
+      oversight: Math.max(0, Math.min((scores.oversight / maxScores.oversight) * 10, 10)),
+      effectiveness: Math.max(0, Math.min((scores.effectiveness / maxScores.effectiveness) * 10, 10)),
+      risk: Math.max(0, Math.min((scores.risk / maxScores.risk) * 10, 10))
     }
 
     // Calculate weighted final score
