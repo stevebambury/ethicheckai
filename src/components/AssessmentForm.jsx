@@ -506,19 +506,40 @@ const AssessmentForm = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {type === 'educational' ? 'Number of Students Impacted *' : 'Number of Users Impacted *'}
+                  {type === 'educational' ? 'Number of Students Impacted *' : 'User Scale *'}
                 </label>
-                <input
-                  type="number"
-                  placeholder={type === 'educational' ? "Enter number of students..." : "Enter number of users..."}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={type === 'educational' ? formData.studentCount : formData.userCount}
-                  onChange={(e) => handleInputChange(type === 'educational' ? 'studentCount' : 'userCount', e.target.value)}
-                />
-                {type === 'educational' && (
-                  <p className="text-sm text-gray-500 mt-1">
-                    Enter 0 if this is for staff/administrative use only
-                  </p>
+                {type === 'educational' ? (
+                  <>
+                    <input
+                      type="number"
+                      placeholder="Enter number of students..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={formData.studentCount}
+                      onChange={(e) => handleInputChange('studentCount', e.target.value)}
+                    />
+                    <p className="text-sm text-gray-500 mt-1">
+                      Enter 0 if this is for staff/administrative use only
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <select
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={formData.userCount}
+                      onChange={(e) => handleInputChange('userCount', e.target.value)}
+                    >
+                      <option value="">Select user scale...</option>
+                      <option value="small">Small scale (1-100 users)</option>
+                      <option value="medium">Medium scale (100-1,000 users)</option>
+                      <option value="large">Large scale (1,000-10,000 users)</option>
+                      <option value="enterprise">Enterprise scale (10,000+ users)</option>
+                      <option value="public">Public/Customer-facing (unknown scale)</option>
+                      <option value="internal-only">Internal staff use only</option>
+                    </select>
+                    <p className="text-sm text-gray-500 mt-1">
+                      Select the scale that best describes your expected user base
+                    </p>
+                  </>
                 )}
               </div>
             </div>
