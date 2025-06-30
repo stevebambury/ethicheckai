@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AlertTriangle, Mail, MessageSquare, Send, CheckCircle } from 'lucide-react'
+import { AlertTriangle, MessageSquare, Send, CheckCircle } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -13,45 +13,42 @@ const ReportIssue = () => {
   })
   const [submitted, setSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setError('')
     
     try {
-      // Create mailto link with pre-filled content
-      const subject = `EthiCheck Issue Report - ${formData.issueType || 'General'}`
-      const body = `
-Issue Report from EthiCheck Beta
+      // Create form data for Netlify
+      const formDataToSubmit = new FormData()
+      formDataToSubmit.append('form-name', 'issue-report')
+      formDataToSubmit.append('name', formData.name)
+      formDataToSubmit.append('email', formData.email)
+      formDataToSubmit.append('issue-type', formData.issueType)
+      formDataToSubmit.append('description', formData.description)
+      formDataToSubmit.append('submitted-from', window.location.href)
+      formDataToSubmit.append('submission-date', new Date().toLocaleString())
+      formDataToSubmit.append('browser-info', navigator.userAgent)
 
-Name: ${formData.name}
-Email: ${formData.email}
-Issue Type: ${formData.issueType}
+      // Submit to Netlify
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formDataToSubmit).toString()
+      })
 
-Description:
-${formData.description}
-
----
-Submitted from: ${window.location.href}
-Date: ${new Date().toLocaleString()}
-Browser: ${navigator.userAgent}
-      `.trim()
-
-      // Create mailto URL
-      const mailtoUrl = `mailto:stevebambury@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-      
-      // Open email client
-      window.location.href = mailtoUrl
-      
-      // Show success message after a brief delay
-      setTimeout(() => {
+      if (response.ok) {
         setSubmitted(true)
-        setIsSubmitting(false)
-      }, 1000)
+      } else {
+        throw new Error('Form submission failed')
+      }
       
     } catch (error) {
-      console.error('Error opening email client:', error)
-      alert('There was an error opening your email client. Please try again or email stevebambury@outlook.com directly.')
+      console.error('Error submitting form:', error)
+      setError('There was an error submitting your report. Please try again or contact us directly.')
+    } finally {
       setIsSubmitting(false)
     }
   }
@@ -71,14 +68,19 @@ Browser: ${navigator.userAgent}
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="w-8 h-8 text-green-600" />
             </div>
-            <CardTitle className="text-2xl">Email Client Opened!</CardTitle>
+            <CardTitle className="text-2xl">Report Submitted!</CardTitle>
             <CardDescription>
-              Your email client should have opened with a pre-filled issue report. Please send the email to complete your report submission.
+              Thank you for your feedback. We've received your issue report and will review it promptly. 
+              You should receive a confirmation email shortly.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Button 
-              onClick={() => {setSubmitted(false); setFormData({name: '', email: '', issueType: '', description: ''})}}
+              onClick={() => {
+                setSubmitted(false)
+                setFormData({name: '', email: '', issueType: '', description: ''})
+                setError('')
+              }}
               variant="outline"
               className="w-full"
             >
@@ -117,7 +119,7 @@ Browser: ${navigator.userAgent}
               <CardContent className="space-y-4">
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-2">How It Works</h4>
-                  <p className="text-gray-600 text-sm mb-2">Fill out the form and click submit to open your email client with a pre-filled message to our support team</p>
+                  <p className="text-gray-600 text-sm mb-2">Fill out the form and submit it directly. We'll receive your report immediately and respond as soon as possible.</p>
                 </div>
                 
                 <div>
@@ -128,6 +130,11 @@ Browser: ${navigator.userAgent}
                     <li>• Assessment accuracy concerns</li>
                     <li>• General feedback</li>
                   </ul>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Response Time</h4>
+                  <p className="text-gray-600 text-sm">We typically respond to issue reports within 24-48 hours during business days.</p>
                 </div>
               </CardContent>
             </Card>
@@ -143,14 +150,32 @@ Browser: ${navigator.userAgent}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+                    <p className="text-red-600 text-sm">{error}</p>
+                  </div>
+                )}
+                
+                <form 
+                  name="issue-report" 
+                  method="POST" 
+                  data-netlify="true" 
+                  data-netlify-honeypot="bot-field"
+                  onSubmit={handleSubmit} 
+                  className="space-y-6"
+                >
+                  {/* Hidden fields for Netlify */}
+                  <input type="hidden" name="form-name" value="issue-report" />
+                  <input type="hidden" name="bot-field" />
+                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Name
+                        Name *
                       </label>
                       <Input
                         type="text"
+                        name="name"
                         value={formData.name}
                         onChange={(e) => handleInputChange('name', e.target.value)}
                         placeholder="Your name"
@@ -159,10 +184,11 @@ Browser: ${navigator.userAgent}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Email
+                        Email *
                       </label>
                       <Input
                         type="email"
+                        name="email"
                         value={formData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
                         placeholder="your.email@example.com"
@@ -173,9 +199,10 @@ Browser: ${navigator.userAgent}
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Issue Type
+                      Issue Type *
                     </label>
                     <select
+                      name="issue-type"
                       value={formData.issueType}
                       onChange={(e) => handleInputChange('issueType', e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -192,9 +219,10 @@ Browser: ${navigator.userAgent}
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Description
+                      Description *
                     </label>
                     <textarea
+                      name="description"
                       value={formData.description}
                       onChange={(e) => handleInputChange('description', e.target.value)}
                       placeholder="Please describe the issue in detail. Include steps to reproduce if it's a bug, or specific suggestions if it's a feature request."
