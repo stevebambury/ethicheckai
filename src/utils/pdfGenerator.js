@@ -116,7 +116,7 @@ export const generatePDF = (assessmentData) => {
   doc.setFontSize(11)
   doc.setFont('helvetica', 'normal')
   doc.setTextColor(...textColor) // Reset to normal text color for content
-  const overallGrade = assessmentData.overallGrade || 'B+'
+  const overallGrade = assessmentData.grade || 'Satisfactory'
   const riskLevel = assessmentData.riskLevel || 'Medium'
   
   const summaryText = `This comprehensive AI ethics assessment evaluates your ${assessmentData.projectTitle || 'AI project'} across six critical dimensions. The overall assessment grade is ${overallGrade} with a ${riskLevel.toLowerCase()} risk profile. This report provides detailed analysis, recommendations, and next steps to ensure ethical AI implementation aligned with current best practices and regulatory requirements.`
@@ -250,12 +250,24 @@ export const generatePDF = (assessmentData) => {
   doc.setTextColor(...textColor) // Reset to normal text color for content
   
   const keyFindings = [
-    `Overall Assessment Grade: ${overallGrade} - Your AI implementation demonstrates ${overallGrade === 'A' ? 'excellent' : overallGrade === 'B+' ? 'strong' : overallGrade === 'B' ? 'good' : 'adequate'} ethical practices.`,
+    `Overall Assessment Grade: ${overallGrade} - Your AI implementation demonstrates ${getGradeQuality(overallGrade)} ethical practices.`,
     `Risk Profile: ${riskLevel} - This indicates ${riskLevel.toLowerCase() === 'low' ? 'minimal' : riskLevel.toLowerCase() === 'medium' ? 'moderate' : 'significant'} ethical concerns requiring attention.`,
     'Compliance Status: Your implementation shows good alignment with current AI ethics frameworks and regulatory requirements.',
     'Areas of Strength: Strong performance in data privacy and human oversight dimensions.',
     'Improvement Opportunities: Focus on bias transparency and impact assessment for enhanced ethical compliance.'
   ]
+  
+  // Helper function to get quality description from grade
+  function getGradeQuality(grade) {
+    switch(grade.toLowerCase()) {
+      case 'excellent': return 'excellent'
+      case 'good': return 'strong'
+      case 'satisfactory': return 'good'
+      case 'needs improvement': return 'adequate'
+      case 'inadequate': return 'concerning'
+      default: return 'adequate'
+    }
+  }
   
   keyFindings.forEach((finding, index) => {
     doc.text(`${index + 1}. `, 20, yPosition)
