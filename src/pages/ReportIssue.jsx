@@ -140,7 +140,6 @@ const ReportIssue = () => {
                   method="POST" 
                   data-netlify="true" 
                   data-netlify-honeypot="bot-field"
-                  action="/report-issue?success=true"
                   className="space-y-6"
                 >
                   {/* Hidden fields for Netlify */}
