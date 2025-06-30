@@ -57,9 +57,9 @@ const AssessmentResults = () => {
     if (score >= 7.0) return { 
       grade: 'Good', 
       description: 'Strong ethical foundation with minor areas for improvement', 
-      color: 'text-blue-600', 
-      bgColor: 'bg-blue-50', 
-      borderColor: 'border-blue-200',
+      color: 'text-green-600', 
+      bgColor: 'bg-green-50', 
+      borderColor: 'border-green-200',
       icon: CheckCircle
     }
     if (score >= 5.5) return { 
@@ -100,7 +100,7 @@ const AssessmentResults = () => {
       return {
         status: 'Good',
         feedback: `Your ${dimensionName.toLowerCase()} approach is strong with minor areas for enhancement.`,
-        color: 'text-blue-600'
+        color: 'text-green-600'
       }
     }
     if (dimensionScore >= 5.5) {
@@ -524,7 +524,7 @@ const AssessmentResults = () => {
                       </span>
                     </div>
                   </div>
-                  <Progress value={dimension.score * 10} className="w-full mb-3" />
+                  <Progress value={dimension.score * 10} className="w-full mb-3 [&>div]:bg-blue-600" />
                   <p className="text-sm text-gray-600">{dimension.feedback.feedback}</p>
                 </div>
               )
