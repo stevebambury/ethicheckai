@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AlertTriangle, MessageSquare, Send, CheckCircle } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -11,12 +11,70 @@ const ReportIssue = () => {
     issueType: '',
     description: ''
   })
+  const [showSuccess, setShowSuccess] = useState(false)
+
+  useEffect(() => {
+    // Check if we're on the success page (Netlify adds ?success=true)
+    const urlParams = new URLSearchParams(window.location.search)
+    if (urlParams.get('success') === 'true') {
+      setShowSuccess(true)
+    }
+  }, [])
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }))
+  }
+
+  if (showSuccess) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="max-w-md mx-auto text-center">
+          <CardHeader>
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="w-8 h-8 text-green-600" />
+            </div>
+            <CardTitle className="text-2xl">Report Submitted!</CardTitle>
+            <CardDescription>
+              Thank you for your feedback. We've received your issue report and will review it promptly. 
+              You should receive a confirmation email shortly.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <h3 className="font-semibold text-blue-900 mb-2">What happens next?</h3>
+              <ul className="text-blue-800 text-sm space-y-1 text-left">
+                <li>• We'll review your report within 24-48 hours</li>
+                <li>• You'll receive an email confirmation shortly</li>
+                <li>• If we need more information, we'll contact you</li>
+                <li>• We'll keep you updated on any fixes or improvements</li>
+              </ul>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button 
+                onClick={() => {
+                  setShowSuccess(false)
+                  setFormData({name: '', email: '', issueType: '', description: ''})
+                  window.history.replaceState({}, '', '/report-issue')
+                }}
+                variant="outline"
+                className="w-full sm:w-auto"
+              >
+                Report Another Issue
+              </Button>
+              <Button 
+                onClick={() => window.location.href = '/'}
+                className="w-full sm:w-auto"
+              >
+                Return to Homepage
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -82,7 +140,7 @@ const ReportIssue = () => {
                   method="POST" 
                   data-netlify="true" 
                   data-netlify-honeypot="bot-field"
-                  action="/report-issue-success"
+                  action="/report-issue?success=true"
                   className="space-y-6"
                 >
                   {/* Hidden fields for Netlify */}
