@@ -35,6 +35,9 @@ const Header = () => {
               <Link to="/report-issue" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
                 Report Issue
               </Link>
+              <span className="px-3 py-2 text-sm font-medium text-green-600 bg-green-50 rounded-md">
+                test for Steve
+              </span>
             </nav>
 
             {/* CTA Button */}
