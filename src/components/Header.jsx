@@ -12,7 +12,7 @@ const Header = () => {
           <Link to="/" className="flex items-center space-x-2">
             <img src={logoImage} alt="EthiCheck" className="h-8 w-8" />
             <span className="text-xl font-bold text-gray-900">
-              EthiCheck<sup className="text-sm font-medium text-blue-600 ml-1">Beta</sup>
+              EthiCheck
             </span>
           </Link>
 
