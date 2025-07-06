@@ -138,6 +138,7 @@ const ReportIssue = () => {
                 <form 
                   name="issue-report" 
                   method="POST" 
+                  action="/report-issue-success"
                   netlify
                   netlify-honeypot="bot-field"
                   className="space-y-6"
