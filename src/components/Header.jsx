@@ -29,6 +29,9 @@ const Header = () => {
               <Link to="/examples" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
                 Examples
               </Link>
+              <a href="https://store.ethicheck.ai/" target="_blank" rel="noopener noreferrer" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                Guides
+              </a>
               <Link to="/glossary" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
                 Glossary
               </Link>
