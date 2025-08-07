@@ -375,7 +375,7 @@ const Methodology = () => {
         </div>
 
         {/* Guides Banner */}
-        <div className="mb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <a href="https://store.ethicheck.ai/" className="block">
             <picture>
               <source media="(max-width: 768px)" srcSet={guidesBannerMobile} />
