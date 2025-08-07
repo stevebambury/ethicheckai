@@ -4,6 +4,7 @@ import { Progress } from '@/components/ui/progress'
 import { Scale, Shield, Eye, User, TrendingUp, AlertTriangle, Download, Printer, CheckCircle, AlertCircle, XCircle } from 'lucide-react'
 import { downloadPDF, printPDF } from '../utils/pdfGenerator'
 import AdSense from '@/components/AdSense'
+import guidesBanner from '../assets/guides-banner.png'
 
 const AssessmentResults = () => {
   const location = useLocation()
@@ -609,6 +610,17 @@ const AssessmentResults = () => {
           </div>
         </div>
 
+        {/* Guides Banner */}
+        <div className="mb-8">
+          <a href="https://store.ethicheck.ai/" className="block">
+            <img 
+              src={guidesBanner} 
+              alt="Access Our Expert Guides - Detailed implementation guides, Actionable frameworks, Close compliance gaps - Get Implementation Ready" 
+              className="w-full rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            />
+          </a>
+        </div>
+
         {/* Actions */}
         <div className="text-center">
           <Link to="/assessment">
@@ -616,6 +628,11 @@ const AssessmentResults = () => {
               Start New Assessment
             </Button>
           </Link>
+          <a href="https://store.ethicheck.ai/">
+            <Button variant="outline" className="mr-4">
+              Professional Guides
+            </Button>
+          </a>
           <Link to="/examples">
             <Button variant="outline" className="mr-4">
               View Examples

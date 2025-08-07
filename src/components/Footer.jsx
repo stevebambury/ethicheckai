@@ -84,7 +84,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="https://store.ethicheck.ai/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://store.ethicheck.ai/" className="text-gray-400 hover:text-white transition-colors">
                   Professional Guides
                 </a>
               </li>
