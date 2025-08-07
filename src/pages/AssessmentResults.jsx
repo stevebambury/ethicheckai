@@ -5,6 +5,7 @@ import { Scale, Shield, Eye, User, TrendingUp, AlertTriangle, Download, Printer,
 import { downloadPDF, printPDF } from '../utils/pdfGenerator'
 import AdSense from '@/components/AdSense'
 import guidesBanner from '../assets/guides-banner.png'
+import guidesBannerMobile from '../assets/guides-banner-mobile.png'
 
 const AssessmentResults = () => {
   const location = useLocation()
@@ -613,11 +614,14 @@ const AssessmentResults = () => {
         {/* Guides Banner */}
         <div className="mb-8">
           <a href="https://store.ethicheck.ai/" className="block">
-            <img 
-              src={guidesBanner} 
-              alt="Access Our Expert Guides - Detailed implementation guides, Actionable frameworks, Close compliance gaps - Get Implementation Ready" 
-              className="w-full rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-            />
+            <picture>
+              <source media="(max-width: 768px)" srcSet={guidesBannerMobile} />
+              <img 
+                src={guidesBanner} 
+                alt="Access Our Expert Guides - Detailed implementation guides, Actionable frameworks, Close compliance gaps - Get Implementation Ready" 
+                className="w-full rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+              />
+            </picture>
           </a>
         </div>
 
