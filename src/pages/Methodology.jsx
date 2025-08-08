@@ -198,10 +198,10 @@ const Methodology = () => {
       <section className="bg-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            Assessment Methodology
+            AI Ethics Assessment Methodology
           </h1>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-            Our evidence-based framework combines international standards, legal requirements, and professional best practices to provide comprehensive AI ethics assessment.
+            Our evidence-based AI ethics framework combines international standards (UNESCO, EU AI Act), legal requirements (GDPR, FERPA), and professional best practices to provide comprehensive artificial intelligence ethics assessment for organizations.
           </p>
         </div>
       </section>

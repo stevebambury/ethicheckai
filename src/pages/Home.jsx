@@ -161,11 +161,11 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
-                Navigate AI Ethics with{' '}
-                <span className="text-blue-600">Confidence</span>
+                AI Ethics Assessment Tool for{' '}
+                <span className="text-blue-600">Professionals</span>
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                A free-to-use ethical assessment framework designed for professionals implementing AI technologies within their organizations.
+                Free comprehensive AI ethics framework covering GDPR, EU AI Act, and UNESCO guidelines. Get detailed compliance reports and actionable implementation guidance for your organization.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/assessment">
